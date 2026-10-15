@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Every trade drips wax into Old Wick's lantern. On Halloween night it cracks open and 90% goes back to holders in SOL.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Old Wick">
+<meta property="og:description" content="Every trade drips wax into his lantern. On Halloween night it cracks open.">
+<meta property="og:image" content="https://YOUR-DOMAIN/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://YOUR-DOMAIN/og.jpg">
+<link rel="icon" href="favicon.png">
+<style>html{color-scheme:dark}body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<title>Old Wick</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&family=IM+Fell+English:ital@0;1&family=Instrument+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: the key art is the stage. Full-bleed night street with a lantern-light cursor and rising embers; copy sits in the dark half. Below, a ledger of tiers, the lore page, the counting rules, the calendar, proof. Single dark theme by choice. */
+:root{
+  --night:#0b0a12;
+  --dusk:#15121d;
+  --line:#2a2433;
+  --wax:#f4ead4;
+  --smoke:#a69eb2;
+  --pumpkin:#ff7a1a;
+  --flame:#ffc566;
+  --brick:#7a3a1c;
+  --display:"IM Fell English SC","Georgia",serif;
+  --story:"IM Fell English","Georgia",serif;
+  --body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--night)}
+body{color:var(--wax);font-family:var(--body);font-size:16px;line-height:1.6}
+:focus-visible{outline:2px solid var(--flame);outline-offset:3px}
+p{margin:0}
+.gutter{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:var(--night)}
+.media{position:relative;width:100%;aspect-ratio:2400/1340;overflow:hidden}
+.scene{position:absolute;inset:0;transform:translate3d(0,var(--py,0px),0) scale(var(--sc,1.04));transform-origin:68% 30%;will-change:transform}
+.scene picture,.scene img{position:absolute;inset:0;width:100%;height:100%}
+.scene img{object-fit:cover}
+.glow{position:absolute;left:var(--x);top:var(--y);width:var(--s);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(closest-side,rgba(255,196,110,.85),rgba(255,140,40,.35) 40%,rgba(255,120,30,0) 100%);opacity:.6}
+.glow.win{background:radial-gradient(closest-side,rgba(255,170,80,.45),rgba(255,120,30,0) 100%)}
+#fog{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.lamp{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(circle 340px at var(--lx,67%) var(--ly,30%),rgba(255,160,70,.16),rgba(255,160,70,0) 70%),
+    radial-gradient(circle 620px at var(--lx,67%) var(--ly,30%),rgba(11,10,18,0),rgba(11,10,18,.42) 100%)}
+.shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(11,10,18,.92) 0%,rgba(11,10,18,.7) 28%,rgba(11,10,18,0) 58%),
+             linear-gradient(0deg,var(--night) 0%,rgba(11,10,18,0) 22%)}
+#embers{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+
+.copy{position:absolute;inset:0;display:flex;align-items:center}
+.copy-inner{width:100%;max-width:1200px;margin:0 auto}
+.copy-box{max-width:520px;display:grid;gap:18px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(64px,9vw,132px);line-height:.84;margin:0;text-wrap:balance;text-shadow:0 2px 30px rgba(0,0,0,.6)}
+h1 em{font-style:normal;color:var(--pumpkin);text-shadow:0 0 28px rgba(255,122,26,.45)}
+.ticker{font-family:var(--mono);font-weight:600;color:var(--flame);font-size:15px}
+.lede{font-family:var(--story);font-style:italic;font-size:clamp(19px,1.9vw,23px);line-height:1.38;max-width:30ch}
+
+.clock{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;max-width:400px}
+.cell{border:1px solid var(--line);background:rgba(21,18,29,.78);backdrop-filter:blur(6px);padding:9px 4px;text-align:center}
+.num{display:block;font-family:var(--mono);font-weight:600;font-size:clamp(22px,2.6vw,32px);line-height:1.1;font-variant-numeric:tabular-nums}
+.unit{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--smoke)}
+
+.ctas{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:12px 18px;border:1px solid var(--pumpkin);text-decoration:none;color:var(--night);background:var(--pumpkin)}
+.btn[aria-disabled="true"]{cursor:default}
+.btn.ghost{background:transparent;color:var(--wax);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--flame)}
+.note{font-size:13px;color:var(--smoke)}
+
+@media (max-width:760px){
+  .media{aspect-ratio:860/1102}
+  .scene{transform-origin:40% 20%}
+  .shade{background:linear-gradient(0deg,var(--night) 0%,rgba(11,10,18,.6) 18%,rgba(11,10,18,0) 40%)}
+  .copy{position:relative;inset:auto;margin-top:-90px}
+  .copy-box{max-width:none}
+}
+
+/* ---------- body ---------- */
+main{max-width:1040px;margin:0 auto;padding-block:8px 72px}
+section{padding-block:64px 0;display:grid;gap:20px}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);line-height:1;margin:0;color:var(--flame);text-wrap:balance}
+.intro{max-width:62ch}
+.muted{color:var(--smoke)}
+
+.bar{display:flex;height:48px;border:1px solid var(--line);font-family:var(--mono);font-size:13px;font-weight:600}
+.bar span{display:flex;align-items:center;padding-inline:10px;white-space:nowrap;overflow:hidden}
+.b1{flex:40;background:var(--pumpkin);color:var(--night)}
+.b2{flex:30;background:#cf5f18;color:var(--night)}
+.b3{flex:20;background:var(--brick);color:var(--wax)}
+.b4{flex:10;background:var(--line);color:var(--smoke);justify-content:center}
+
+.tiers{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.tiers li{display:grid;grid-template-columns:96px minmax(0,1.2fr) minmax(0,2fr);gap:20px;align-items:baseline;padding-block:20px;border-bottom:1px solid var(--line)}
+.pct{font-family:var(--display);font-size:46px;line-height:1;color:var(--pumpkin)}
+.pct.dim{color:var(--smoke)}
+.tname{font-family:var(--display);font-size:25px;line-height:1.1}
+.twho{font-family:var(--mono);font-size:12px;letter-spacing:.05em;color:var(--smoke);display:block;margin-top:4px}
+.tdesc{min-width:0}
+@media (max-width:640px){.tiers li{grid-template-columns:72px minmax(0,1fr);gap:6px 14px}.tdesc{grid-column:2}}
+
+.lore{display:grid;gap:16px;max-width:640px;border-left:1px solid var(--line);padding-left:22px}
+.lore p{font-family:var(--story);font-size:clamp(19px,2.2vw,22px);line-height:1.52}
+.lore p:first-child::first-letter{font-family:var(--display);float:left;font-size:3.4em;line-height:.8;padding:6px 8px 0 0;color:var(--pumpkin)}
+
+.rules{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rules li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;padding-block:14px;border-bottom:1px solid var(--line)}
+.k{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);padding-top:3px}
+.v{min-width:0}
+@media (max-width:560px){.rules li{grid-template-columns:1fr;gap:2px}}
+
+.cal{list-style:none;margin:0 0 0 6px;padding:0;border-left:1px dashed var(--line)}
+.cal li{position:relative;padding:0 0 22px 26px}
+.cal li::before{content:"";position:absolute;left:-7px;top:4px;width:12px;height:16px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;background:var(--night);border:2px solid var(--pumpkin)}
+.cal li.hot::before{background:var(--flame);border-color:var(--flame);box-shadow:0 0 14px var(--pumpkin)}
+.when{display:block;font-family:var(--mono);font-size:12px;color:var(--flame)}
+
+.proof{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.proof div{background:var(--dusk);padding:16px;display:grid;gap:4px;min-width:0}
+.proof b{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);font-weight:400}
+.proof span{font-family:var(--mono);font-size:14px;word-break:break-all}
+@media (max-width:560px){.proof{grid-template-columns:1fr}}
+
+.fine{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);display:grid;gap:8px;font-size:13px;color:var(--smoke);max-width:70ch}
+
+@media (prefers-reduced-motion:reduce){.scene{transform:scale(1.04)!important}}
+
+/* ---------- intro story ---------- */
+.intro-story{position:fixed;inset:0;z-index:50;background:#06050a;overflow:hidden;opacity:1;transition:opacity .9s ease}
+.intro-story.out{opacity:0;pointer-events:none}
+.st-stage{position:absolute;left:0;top:0;transform-origin:0 0;opacity:0;will-change:transform,opacity}
+.st-stage.on{opacity:1}
+.st-stage img{display:block;width:100%;height:100%}
+.st-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,rgba(6,5,10,0) 35%,rgba(6,5,10,.75) 100%),linear-gradient(0deg,rgba(6,5,10,.92) 0%,rgba(6,5,10,0) 45%)}
+.st-bars{position:absolute;left:0;right:0;top:0;display:flex;gap:6px;padding-top:calc(14px + env(safe-area-inset-top,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.st-bars i{flex:1;height:3px;background:rgba(244,234,212,.25);overflow:hidden;border-radius:2px}
+.st-bars i b{display:block;height:100%;width:0;background:var(--wax)}
+.st-skip{position:absolute;top:calc(28px + env(safe-area-inset-top,0px));right:max(16px,env(safe-area-inset-right,0px));font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--wax);background:rgba(6,5,10,.5);border:1px solid var(--line);padding:8px 12px;cursor:pointer}
+.st-text{position:absolute;left:0;right:0;bottom:0;padding-bottom:calc(48px + env(safe-area-inset-bottom,0px));padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.st-inner{max-width:1100px;margin:0 auto;display:grid;gap:18px}
+.st-line{font-family:var(--story);font-size:clamp(24px,3.6vw,44px);line-height:1.25;max-width:24ch;text-wrap:balance;min-height:2.5em;transition:opacity .7s ease,transform .7s ease}
+.st-line.hide{opacity:0;transform:translateY(10px)}
+.st-line em{font-style:normal;font-family:var(--display);color:var(--flame)}
+.st-hint{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke)}
+.st-enter{justify-self:start;font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:13px 20px;border:1px solid var(--pumpkin);background:var(--pumpkin);color:var(--night);cursor:pointer}
+.replay{background:none;border:0;padding:0;font:inherit;color:var(--flame);text-decoration:underline;cursor:pointer}
+
+</style>
+
+
+
+</head>
+<body>
+<div class="intro-story" id="story" hidden role="dialog" aria-label="The story of Old Wick">
+  <div id="st-stages"></div>
+  <div class="st-vig"></div>
+  <div class="st-bars" id="st-bars"></div>
+  <button class="st-skip" id="st-skip" type="button">Skip</button>
+  <div class="st-text">
+    <div class="st-inner">
+      <p class="st-line" id="st-line"></p>
+      <span class="st-hint" id="st-hint">Tap to continue</span>
+      <button class="st-enter" id="st-enter" type="button" hidden>Enter Hollow Row</button>
+    </div>
+  </div>
+</div>
+
+<header class="hero" id="hero">
+  <div class="media">
+    <div class="scene" id="scene">
+      <picture>
+        <source media="(max-width:760px)" srcset="hero-mobile.webp">
+        <source media="(max-width:1300px)" srcset="hero-1200.webp">
+        <img src="hero-2400.webp" alt="Old Wick, a pumpkin-headed lamplighter with a candle burning on his head, lighting a street lamp on a foggy cobbled street at night" width="2400" height="1340">
+      </picture>
+      <div id="glows"></div>
+      <canvas id="fog"></canvas>
+    </div>
+    <div class="lamp" id="lamp"></div>
+    <canvas id="embers"></canvas>
+    <div class="shade"></div>
+  </div>
+  <div class="copy">
+    <div class="copy-inner gutter">
+      <div class="copy-box">
+        <div class="eyebrow">Solana · pump.fun · Halloween 2026</div>
+        <h1>Old<br><em>Wick</em></h1>
+        <p class="lede">Every trade drips wax into his lantern. On Halloween night it cracks open, and 90% of it goes back to the holders as SOL.</p>
+        <div class="clock" aria-label="Time until the lantern opens">
+          <div class="cell"><span class="num" id="d">16</span><span class="unit">days</span></div>
+          <div class="cell"><span class="num" id="h">00</span><span class="unit">hours</span></div>
+          <div class="cell"><span class="num" id="m">00</span><span class="unit">min</span></div>
+          <div class="cell"><span class="num" id="s">00</span><span class="unit">sec</span></div>
+        </div>
+        <div class="ctas">
+          <span class="btn" aria-disabled="true">Lit on 17 Oct</span>
+          <a class="btn ghost" href="#rules">How the payout works</a>
+        </div>
+        <p class="note" id="clock-note">Payout: 31 October 2026, by 20:00 UTC</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="gutter">
+  <section aria-labelledby="split">
+    <h2 id="split">Where the wax goes</h2>
+    <div class="bar" role="img" aria-label="40 percent inner circle, 30 percent lantern line, 20 percent all other holders, 10 percent dev">
+      <span class="b1">40%</span><span class="b2">30%</span><span class="b3">20%</span><span class="b4">10%</span>
+    </div>
+    <ul class="tiers">
+      <li><span class="pct">40%</span><div><span class="tname">The Inner Circle</span><span class="twho">Ranks 1–50</span></div><p class="tdesc">The fifty closest to the flame. Shared by balance inside the circle.</p></li>
+      <li><span class="pct">30%</span><div><span class="tname">The Lantern Line</span><span class="twho">Ranks 51–100</span></div><p class="tdesc">The next fifty. A smaller crowd behind the circle, so each token here earns more.</p></li>
+      <li><span class="pct">20%</span><div><span class="tname">Candles in the Windows</span><span class="twho">Everyone else holding 500,000+ tokens</span></div><p class="tdesc">Every holder above the line gets a share by balance. 500,000 tokens is 0.05% of supply.</p></li>
+      <li><span class="pct dim">10%</span><div><span class="tname">Old Wick's cut</span><span class="twho">The dev</span></div><p class="tdesc">Keeps the lantern lit and the site running.</p></li>
+    </ul>
+    <p class="intro muted">The token has no tax. The lantern fills only from the pump.fun creator fee on trading volume. More volume means more wax. No volume means no payout.</p>
+  </section>
+
+  <section aria-labelledby="lore">
+    <h2 id="lore">The lamplighter</h2>
+    <div class="lore">
+      <p>Every October, Old Wick walks Hollow Row with a candle burning on his head and a hook to light the lamps. He does not sell candles. He keeps one burning.</p>
+      <p>This year he hung his lantern on Solana. Every trade lets a drop of wax fall inside. Nine drops in ten stay in the lantern. One he keeps for the walk.</p>
+      <p>On the last night of October the candle gutters, the lantern cracks, and the wax runs out as SOL. First to the circle nearest the flame, then to the line of lanterns behind it, then to every window that kept a candle lit.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="rules">
+    <h2 id="rules">The counting</h2>
+    <ul class="rules">
+      <li><span class="k">Snapshot</span><span class="v">Taken at a random moment between <strong>28 Oct 00:00</strong> and <strong>31 Oct 00:00 UTC</strong>. The time is not announced in advance.</span></li>
+      <li><span class="k">Proof</span><span class="v">The snapshot time and the full holder list are published together with the payout, so anyone can check them on-chain.</span></li>
+      <li><span class="k">Excluded</span><span class="v">Bonding curve and liquidity pools, exchange wallets, dev wallets, and every wallet that bought in the launch block.</span></li>
+      <li><span class="k">Paid in</span><span class="v">SOL, from the lantern wallet, on 31 Oct by 20:00 UTC.</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="cal">
+    <h2 id="cal">Burn calendar</h2>
+    <ol class="cal">
+      <li><span class="when">17 Oct</span>The lantern is lit. Contract and lantern wallet go public.</li>
+      <li><span class="when">17–28 Oct</span>Wax collects. The lantern balance is visible at all times.</li>
+      <li><span class="when">28–31 Oct</span>The snapshot window. The snapshot is taken at an unannounced moment in these 72 hours.</li>
+      <li class="hot"><span class="when">31 Oct</span>The snapshot time, the full holder list and every share are published. The lantern opens.</li>
+      <li><span class="when">After Halloween</span>If the volume holds, Old Wick lights it again for New Year.</li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="proof">
+    <h2 id="proof">Proof</h2>
+    <div class="proof">
+      <div><b>Contract</b><span>Posted at launch</span></div>
+      <div><b>Lantern wallet</b><span>Posted at launch</span></div>
+      <div><b>Snapshot</b><span>Published on 31 Oct</span></div>
+      <div><b>Payout transactions</b><span>Listed on 31 Oct</span></div>
+    </div>
+  </section>
+
+  <footer class="fine">
+    <p>Old Wick is a memecoin. It has no intrinsic value and no expectation of profit. The payout depends only on trading volume and may be small or zero. Nothing here is financial advice.</p>
+    <p>Check the rules where you live before taking part. Never buy more than you can afford to lose.</p>
+    <p><button class="replay" id="replay" type="button">Watch the story again</button></p>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var target=Date.UTC(2026,9,31,20,0,0);
+  var ids=['d','h','m','s'].map(function(i){return document.getElementById(i)});
+  function pad(n){return String(n).padStart(2,'0')}
+  (function tick(){
+    var t=Math.floor(Math.max(0,target-Date.now())/1000);
+    ids[0].textContent=pad(Math.floor(t/86400));
+    ids[1].textContent=pad(Math.floor(t%86400/3600));
+    ids[2].textContent=pad(Math.floor(t%3600/60));
+    ids[3].textContent=pad(t%60);
+    if(t===0){document.getElementById('clock-note').textContent='The lantern is open.';return}
+    setTimeout(tick,1000);
+  })();
+})();
+
+(function(){
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var media=document.querySelector('.media');
+  var scene=document.getElementById('scene');
+  var lamp=document.getElementById('lamp');
+  var glowsEl=document.getElementById('glows');
+  var cv=document.getElementById('embers'), ctx=cv.getContext('2d');
+  var fc=document.getElementById('fog'), fx=fc.getContext('2d');
+  var W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2);
+  function mobile(){return window.innerWidth<=760}
+
+  // light sources, as fractions of the image (desktop / mobile crop)
+  var SRC={
+    desk:[
+      {x:.668,y:.192,s:.07,k:'flame',sp:1},
+      {x:.685,y:.30,s:.11,k:'face',sp:.8},
+      {x:.872,y:.16,s:.09,k:'flame',sp:1.2},
+      {x:.777,y:.54,s:.10,k:'win',sp:.4},
+      {x:.565,y:.45,s:.06,k:'win',sp:.5},
+      {x:.53,y:.27,s:.05,k:'win',sp:.35}
+    ],
+    mob:[
+      {x:.403,y:.192,s:.16,k:'flame',sp:1},
+      {x:.442,y:.30,s:.26,k:'face',sp:.8},
+      {x:.872,y:.16,s:.2,k:'flame',sp:1.2},
+      {x:.654,y:.54,s:.22,k:'win',sp:.4}
+    ]
+  };
+  var lights=[];
+  function buildGlows(){
+    glowsEl.innerHTML='';lights=[];
+    (mobile()?SRC.mob:SRC.desk).forEach(function(s,i){
+      var d=document.createElement('div');
+      d.className='glow'+(s.k==='win'?' win':'');
+      d.style.setProperty('--x',(s.x*100)+'%');
+      d.style.setProperty('--y',(s.y*100)+'%');
+      d.style.setProperty('--s',(s.s*100)+'%');
+      glowsEl.appendChild(d);
+      lights.push({el:d,sp:s.sp,ph:i*1.7,k:s.k});
+    });
+  }
+
+  // fog sprite
+  var puff=document.createElement('canvas');puff.width=puff.height=256;
+  (function(){var g=puff.getContext('2d'),r=g.createRadialGradient(128,128,0,128,128,128);
+    r.addColorStop(0,'rgba(170,160,205,.55)');r.addColorStop(.5,'rgba(130,115,170,.22)');r.addColorStop(1,'rgba(110,95,150,0)');
+    g.fillStyle=r;g.fillRect(0,0,256,256);})();
+  var fogs=[];
+  function buildFog(){
+    fogs=[];var n=mobile()?7:12;
+    for(var i=0;i<n;i++){
+      fogs.push({x:Math.random()*W,y:H*(.55+Math.random()*.35),w:W*(.25+Math.random()*.35),h:H*(.12+Math.random()*.14),v:(.08+Math.random()*.18)*(Math.random()<.5?-1:1),a:.35+Math.random()*.4});
+    }
+  }
+
+  // embers
+  var ps=[];
+  function spawn(p,init){
+    var m=mobile();
+    p.x=m?Math.random()*W:W*.25+Math.random()*W*.75;
+    p.y=init?Math.random()*H:H+10;
+    p.v=.25+Math.random()*.7;p.r=.8+Math.random()*1.8;p.a=.35+Math.random()*.6;p.ph=Math.random()*6.28;
+    return p;
+  }
+
+  function size(){
+    var r=media.getBoundingClientRect();W=r.width;H=r.height;
+    [cv,fc].forEach(function(c){c.width=Math.round(W*dpr);c.height=Math.round(H*dpr);});
+    ctx.setTransform(dpr,0,0,dpr,0,0);fx.setTransform(dpr,0,0,dpr,0,0);
+    buildGlows();buildFog();
+    ps=[];var N=mobile()?40:80;for(var i=0;i<N;i++)ps.push(spawn({},true));
+    setHome();
+  }
+
+  // lantern light follows the pointer, rests on his candle
+  var home={x:.67,y:.3},cur={x:.67,y:.3},aim={x:.67,y:.3},moved=false;
+  function setHome(){home=mobile()?{x:.42,y:.24}:{x:.67,y:.3};if(!moved){aim.x=cur.x=home.x;aim.y=cur.y=home.y;applyLamp();}}
+  function applyLamp(){lamp.style.setProperty('--lx',(cur.x*100).toFixed(2)+'%');lamp.style.setProperty('--ly',(cur.y*100).toFixed(2)+'%');}
+  media.addEventListener('pointermove',function(e){
+    if(e.pointerType!=='mouse')return;
+    var r=media.getBoundingClientRect();aim.x=(e.clientX-r.left)/r.width;aim.y=(e.clientY-r.top)/r.height;moved=true;
+  });
+  media.addEventListener('pointerleave',function(){aim.x=home.x;aim.y=home.y;});
+
+  function flick(t,sp,ph){ // layered sines + jitter = candle-like
+    return .55+.18*Math.sin(t*.011*sp+ph)+.12*Math.sin(t*.027*sp+ph*2.3)+.08*Math.sin(t*.063*sp+ph)+(Math.random()-.5)*.08;
+  }
+
+  function draw(t){
+    // glows
+    for(var i=0;i<lights.length;i++){
+      var L=lights[i],f=flick(t,L.sp,L.ph);
+      if(L.k==='win')f=.45+(f-.55)*.4;
+      L.el.style.opacity=Math.max(0,Math.min(1,f)).toFixed(3);
+      L.el.style.transform='translate(-50%,-50%) scale('+(.94+f*.12).toFixed(3)+')';
+    }
+    // fog
+    fx.clearRect(0,0,W,H);
+    for(var j=0;j<fogs.length;j++){
+      var F=fogs[j];if(!reduce)F.x+=F.v;
+      if(F.x>W+F.w)F.x=-F.w;if(F.x<-F.w)F.x=W+F.w;
+      fx.globalAlpha=F.a*(.85+.15*Math.sin(t*.0004+j));
+      fx.drawImage(puff,F.x-F.w/2,F.y-F.h/2,F.w,F.h);
+    }
+    fx.globalAlpha=1;
+    // embers
+    ctx.clearRect(0,0,W,H);ctx.globalCompositeOperation='lighter';
+    for(var k=0;k<ps.length;k++){
+      var p=ps[k];
+      if(!reduce){p.y-=p.v;p.x+=Math.sin(t/900+p.ph)*.35;}
+      if(p.y<-10)spawn(p,false);
+      var fade=Math.min(1,p.y/(H*.5));
+      var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
+      g.addColorStop(0,'rgba(255,200,110,'+(p.a*fade)+')');g.addColorStop(1,'rgba(255,120,30,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(p.x,p.y,p.r*4,0,6.283);ctx.fill();
+    }
+    ctx.globalCompositeOperation='source-over';
+  }
+
+  function frame(t){
+    cur.x+=(aim.x-cur.x)*.08;cur.y+=(aim.y-cur.y)*.08;applyLamp();
+    var y=window.scrollY||0;
+    scene.style.setProperty('--py',(Math.min(y,900)*.18).toFixed(1)+'px');
+    scene.style.setProperty('--sc',(1.04+.012*Math.sin(t*.0005)).toFixed(4));
+    draw(t);
+  }
+
+  size();
+  var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(size,120);});
+
+  var visible=true,running=false;
+  function start(){
+    if(running||reduce)return;running=true;
+    (function step(t){if(!visible){running=false;return}frame(t);requestAnimationFrame(step);})(performance.now());
+  }
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){visible=es[0].isIntersecting;if(visible)start();}).observe(media);
+  }
+  if(reduce){draw(0);}else{start();}
+})();
+
+(function(){
+  var KEY='oldwick_story_seen_v2';
+  var story=document.getElementById('story');
+  var holder=document.getElementById('st-stages');
+  var line=document.getElementById('st-line'), bars=document.getElementById('st-bars');
+  var hint=document.getElementById('st-hint'), enter=document.getElementById('st-enter');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var AR=5504/3072, DUR=5600;
+  // each slide: its own frame, a slow camera move from (a) to (b): focus point + scale
+  var slides=[
+    {src:'story-1.webp',a:{fx:.5,fy:.55,s:1.02},b:{fx:.5,fy:.66,s:1.22},
+     t:'Hollow Row has no streetlights. Only one old man to light them.'},
+    {src:'story-2.webp',a:{fx:.5,fy:.45,s:1.02},b:{fx:.5,fy:.42,s:1.16},
+     t:'He burns his own wax to do it. Three hundred Octobers, and the candle on his head has never gone out.'},
+    {src:'story-3.webp',a:{fx:.5,fy:.5,s:1.04},b:{fx:.5,fy:.56,s:1.2},
+     t:'This year <em>Old Wick</em> hung his lantern on Solana. Every trade lets a drop of wax fall inside.'},
+    {src:null,a:{fx:.67,fy:.28,s:1.9},b:{fx:.6,fy:.45,s:1.0},
+     t:'On Halloween night the lantern cracks open, and the wax goes back to everyone who kept their light on.'}
+  ];
+  var stages=[], i=-1, timer=null, started=0, raf=0, W=0, H=0;
+
+  function seen(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+  function mark(){try{localStorage.setItem(KEY,'1')}catch(e){}}
+
+  function build(){
+    holder.innerHTML='';stages=[];
+    var big=window.innerWidth>1300;
+    slides.forEach(function(sl){
+      var d=document.createElement('div');d.className='st-stage';
+      var im=document.createElement('img');im.alt='';im.decoding='async';
+      im.src=sl.src||(big?'hero-2400.webp':'hero-1200.webp');
+      d.appendChild(im);holder.appendChild(d);stages.push(d);
+    });
+    bars.innerHTML='';
+    slides.forEach(function(){var b=document.createElement('i');b.appendChild(document.createElement('b'));bars.appendChild(b);});
+  }
+  function size(){
+    var vw=window.innerWidth,vh=window.innerHeight;
+    W=Math.max(vw,vh*AR);H=W/AR;
+    stages.forEach(function(d){d.style.width=W+'px';d.style.height=H+'px';});
+  }
+  function place(d,p,ms){
+    var vw=window.innerWidth,vh=window.innerHeight,s=p.s;
+    var cx=vw*.5,cy=vh*.42;
+    var tx=cx-p.fx*W*s,ty=cy-p.fy*H*s;
+    tx=Math.min(0,Math.max(vw-W*s,tx));ty=Math.min(0,Math.max(vh-H*s,ty));
+    d.style.transition=ms?('transform '+ms+'ms cubic-bezier(.33,.0,.2,1), opacity 1s ease'):'opacity 1s ease';
+    d.style.transform='translate('+tx.toFixed(1)+'px,'+ty.toFixed(1)+'px) scale('+s+')';
+  }
+  function paintBars(p){
+    var kids=bars.children;
+    for(var k=0;k<kids.length;k++)kids[k].firstChild.style.width=(k<i?100:k===i?Math.min(100,p*100):0)+'%';
+  }
+  function go(n){
+    clearTimeout(timer);
+    if(n>=slides.length){finish();return}
+    if(n<0)n=0;
+    var prev=i;i=n;
+    var sl=slides[i],d=stages[i];
+    // start pose instantly, then glide to end pose
+    place(d,sl.a,0);d.offsetWidth;
+    stages.forEach(function(s,k){s.classList.toggle('on',k===i);});
+    if(!reduce)requestAnimationFrame(function(){place(d,sl.b,DUR+1600);});
+    line.classList.add('hide');
+    setTimeout(function(){line.innerHTML=sl.t;line.classList.remove('hide');},reduce?0:420);
+    var last=i===slides.length-1;
+    enter.hidden=!last;hint.hidden=last;
+    started=performance.now();
+    if(!last)timer=setTimeout(function(){go(i+1)},DUR);
+  }
+  function tick(){paintBars(i===slides.length-1?1:(performance.now()-started)/DUR);raf=requestAnimationFrame(tick);}
+  function finish(){
+    clearTimeout(timer);cancelAnimationFrame(raf);mark();
+    story.classList.add('out');document.documentElement.style.overflow='';
+    setTimeout(function(){story.hidden=true;story.classList.remove('out');holder.innerHTML='';},900);
+    window.removeEventListener('keydown',onKey);
+  }
+  function onKey(e){
+    if(e.key==='Escape')finish();
+    else if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();go(i+1);}
+    else if(e.key==='ArrowLeft')go(i-1);
+  }
+  function open(){
+    story.hidden=false;document.documentElement.style.overflow='hidden';
+    build();size();i=-1;
+    requestAnimationFrame(function(){go(0);});
+    cancelAnimationFrame(raf);raf=requestAnimationFrame(tick);
+    window.addEventListener('keydown',onKey);
+    document.getElementById('st-skip').focus({preventScroll:true});
+  }
+
+  story.addEventListener('click',function(e){
+    if(e.target.closest('#st-skip')||e.target.closest('#st-enter'))return;
+    go(e.clientX/window.innerWidth<.25?i-1:i+1);
+  });
+  document.getElementById('st-skip').addEventListener('click',finish);
+  enter.addEventListener('click',finish);
+  document.getElementById('replay').addEventListener('click',function(){window.scrollTo(0,0);open();});
+  window.addEventListener('resize',function(){if(!story.hidden){size();if(i>=0)place(stages[i],slides[i].b,0);}});
+
+  if(!seen())open();
+})();
+</script>
+
+</body>
+</html>
